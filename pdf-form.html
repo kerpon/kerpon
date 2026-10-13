@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资料申请表 - kerpon</title>
+    <link rel="stylesheet" href="pdf-styles.css">
+    <script src="supabase-config.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="pdf-container">
+        <!-- PDF 页面 -->
+        <div class="pdf-page">
+            <!-- PDF 头部 -->
+            <div class="pdf-header">
+                <div class="pdf-logo">
+                    <div class="logo-text">kerpon</div>
+                    <div class="logo-subtitle">商业领袖</div>
+                </div>
+                <div class="pdf-title">
+                    <h1>商业增长秘籍申请表</h1>
+                    <p class="pdf-subtitle">填写以下信息，立即获取价值999元的独家商业资料</p>
+                </div>
+            </div>
+
+            <!-- PDF 表单区域 -->
+            <div class="pdf-content">
+                <form id="pdf-form">
+                    <!-- 个人信息区 -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-number">01</span>
+                            <h3>个人信息</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="fullName">姓名 *</label>
+                                <input type="text" id="fullName" name="fullName" required placeholder="请输入您的真实姓名">
+                            </div>
+                            <div class="form-field">
+                                <label for="gender">性别</label>
+                                <select id="gender" name="gender">
+                                    <option value="">请选择</option>
+                                    <option value="male">男</option>
+                                    <option value="female">女</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="age">年龄</label>
+                                <input type="number" id="age" name="age" placeholder="请输入年龄">
+                            </div>
+                            <div class="form-field">
+                                <label for="phone">手机号码 *</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="请输入11位手机号码">
+                            </div>
+                            <div class="form-field full-width">
+                                <label for="email">邮箱地址 *</label>
+                                <input type="email" id="email" name="email" required placeholder="请输入常用邮箱地址">
+                            </div>
+                            <div class="form-field full-width">
+                                <label for="wechat">微信号（可选）</label>
+                                <input type="text" id="wechat" name="wechat" placeholder="方便我们添加您发送资料">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 职业信息区 -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-number">02</span>
+                            <h3>职业信息</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field">
+                                <label for="company">公司名称</label>
+                                <input type="text" id="company" name="company" placeholder="请输入公司名称">
+                            </div>
+                            <div class="form-field">
+                                <label for="position">职位</label>
+                                <input type="text" id="position" name="position" placeholder="请输入您的职位">
+                            </div>
+                            <div class="form-field">
+                                <label for="industry">行业</label>
+                                <select id="industry" name="industry">
+                                    <option value="">请选择行业</option>
+                                    <option value="tech">科技/互联网</option>
+                                    <option value="finance">金融</option>
+                                    <option value="retail">零售/电商</option>
+                                    <option value="manufacturing">制造业</option>
+                                    <option value="service">服务业</option>
+                                    <option value="education">教育</option>
+                                    <option value="healthcare">医疗健康</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="companySize">公司规模</label>
+                                <select id="companySize" name="companySize">
+                                    <option value="">请选择</option>
+                                    <option value="1-10">1-10人</option>
+                                    <option value="11-50">11-50人</option>
+                                    <option value="51-200">51-200人</option>
+                                    <option value="201-500">201-500人</option>
+                                    <option value="500+">500人以上</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 商业需求区 -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-number">03</span>
+                            <h3>商业需求</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field full-width">
+                                <label for="businessType">您的业务类型 *</label>
+                                <select id="businessType" name="businessType" required>
+                                    <option value="">请选择业务类型</option>
+                                    <option value="startup">创业企业</option>
+                                    <option value="sme">中小企业</option>
+                                    <option value="enterprise">大型企业</option>
+                                    <option value="freelancer">自由职业</option>
+                                    <option value="other">其他</option>
+                                </select>
+                            </div>
+                            <div class="form-field full-width">
+                                <label for="challenges">当前面临的主要挑战（可多选）</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="challenges" value="growth">
+                                        <span>业绩增长缓慢</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="challenges" value="competition">
+                                        <span>竞争压力大</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="challenges" value="strategy">
+                                        <span>缺乏清晰战略</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="challenges" value="team">
+                                        <span>团队管理问题</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="challenges" value="marketing">
+                                        <span>营销效果不佳</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="challenges" value="other">
+                                        <span>其他问题</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-field full-width">
+                                <label for="goals">您希望通过这份资料解决什么问题？</label>
+                                <textarea id="goals" name="goals" rows="4" placeholder="请简要描述您的目标和期望..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 联系偏好区 -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-number">04</span>
+                            <h3>联系偏好</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-field full-width">
+                                <label>希望通过哪种方式接收资料？</label>
+                                <div class="radio-group">
+                                    <label class="radio-item">
+                                        <input type="radio" name="contactMethod" value="email" checked>
+                                        <span>邮件发送</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="contactMethod" value="wechat">
+                                        <span>微信发送</span>
+                                    </label>
+                                    <label class="radio-item">
+                                        <input type="radio" name="contactMethod" value="both">
+                                        <span>邮件 + 微信</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-field full-width">
+                                <label for="bestTime">最佳联系时间</label>
+                                <select id="bestTime" name="bestTime">
+                                    <option value="">请选择</option>
+                                    <option value="morning">上午 9:00-12:00</option>
+                                    <option value="afternoon">下午 14:00-18:00</option>
+                                    <option value="evening">晚上 19:00-21:00</option>
+                                    <option value="anytime">任意时间</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 同意条款 -->
+                    <div class="form-section">
+                        <div class="agreement-section">
+                            <label class="agreement-item">
+                                <input type="checkbox" id="privacy" name="privacy" required>
+                                <span>我已阅读并同意 <a href="#" class="link">隐私政策</a> 和 <a href="#" class="link">服务条款</a> *</span>
+                            </label>
+                            <label class="agreement-item">
+                                <input type="checkbox" id="marketing" name="marketing">
+                                <span>我同意接收相关的商业资讯和更新（可选）</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- 提交按钮 -->
+                    <div class="form-footer">
+                        <button type="submit" class="pdf-submit-btn">
+                            <span class="btn-text">提交申请</span>
+                            <span class="btn-icon">→</span>
+                        </button>
+                        <p class="form-note">
+                            🔒 您的信息将被严格保密，仅用于发送资料和后续服务
+                        </p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- PDF 页脚 -->
+            <div class="pdf-footer">
+                <div class="footer-left">
+                    <span class="page-number">第 1 页 / 共 1 页</span>
+                </div>
+                <div class="footer-center">
+                    <span>商业增长秘籍申请表</span>
+                </div>
+                <div class="footer-right">
+                    <span>© 2024 kerpon</span>
+                    <a href="admin-dashboard.html" class="admin-link" style="margin-left: 10px;">🔒 管理</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="pdf-generator.js"></script>
+    <script src="pdf-script.js"></script>
+</body>
+</html>

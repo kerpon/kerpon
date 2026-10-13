@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据看板 - kerpon</title>
+    <link rel="stylesheet" href="dashboard-styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="generate-form-data.js"></script>
+    <script src="insert-form-data.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="logo-text">kerpon</span>
+                <span class="logo-subtitle">数据看板</span>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-primary" onclick="insertFormData(100)">
+                    <span>🔄</span>
+                    <span>生成数据</span>
+                </button>
+                <a href="index.html" class="btn btn-secondary">
+                    <span>🏠</span>
+                    <span>返回首页</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <!-- 统计卡片 -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">�</div>
+                    <div class="stat-info">
+                        <div class="stat-label">总提交数</div>
+                        <div class="stat-value" id="total-submissions">0</div>
+                        <div class="stat-trend positive">↑ 持续增长</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏢</div>
+                    <div class="stat-info">
+                        <div class="stat-label">企业客户</div>
+                        <div class="stat-value" id="company-count">0</div>
+                        <div class="stat-trend positive">↑ 高质量</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">�</div>
+                    <div class="stat-info">
+                        <div class="stat-label">邮件发送</div>
+                        <div class="stat-value" id="email-count">0</div>
+                        <div class="stat-trend positive">↑ 活跃</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">�</div>
+                    <div class="stat-info">
+                        <div class="stat-label">微信联系</div>
+                        <div class="stat-value" id="wechat-count">0</div>
+                        <div class="stat-trend positive">↑ 便捷</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 图表区域 -->
+            <section class="charts-grid">
+                <!-- 行业分布 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>行业分布</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="industryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 业务类型分布 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>业务类型</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="businessTypeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 公司规模分布 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>公司规模</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="companySizeChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 面临的挑战 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>面临的挑战</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="challengesChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 年龄分布 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>年龄分布</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 联系方式偏好 -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>联系方式偏好</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="contactMethodChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 提交趋势 -->
+            <section class="trend-section">
+                <div class="section-header">
+                    <h3>提交趋势（最近30天）</h3>
+                </div>
+                <div class="chart-card large">
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 最近提交记录 -->
+            <section class="submissions-section">
+                <div class="section-header">
+                    <h3>最近提交记录</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>联系方式</th>
+                                <th>公司</th>
+                                <th>行业</th>
+                                <th>业务类型</th>
+                                <th>提交时间</th>
+                            </tr>
+                        </thead>
+                        <tbody id="submissions-body">
+                            <tr>
+                                <td colspan="6" class="loading-row">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="dashboard-script.js"></script>
+</body>
+</html>
